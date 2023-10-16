@@ -547,6 +547,7 @@ class Scale(nn.Module):
 
     def forward(self, x, **kwargs):
         out = self.fn(x, **kwargs)
+
         def scale_fn(t):
             return t * self.value
 
@@ -1727,9 +1728,7 @@ class TransformerWrapper(nn.Module):
             self.num_memory_tokens > 0,
             self.emb_frac_gradient,
         )
-        (
-            return_mems | return_attn | return_intermediates | return_attn_z_loss
-        )
+        (return_mems | return_attn | return_intermediates | return_attn_z_loss)
 
         # absolute positional embedding
 
