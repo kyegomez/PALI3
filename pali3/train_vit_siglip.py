@@ -4,11 +4,10 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import os
-from pali3.vit import NaViT
+from pali3.main import VitModel
 from zeta.nn.modules import SigLipLoss
 
 
-# Pretraining
 def pretrain(
     model,
     train_loader,
@@ -27,7 +26,7 @@ def pretrain(
             images = images.to(device)
             labels = labels.to(device)
             optimizer.zero_grad()
-            embeddings = model(images)
+            embeddings = model.process(images)
             loss = loss_fn(embeddings, labels)
             loss.backward()
             optimizer.step()
@@ -46,7 +45,7 @@ def validate(model, dataloader, loss_fn, device):
         for images, labels in dataloader:
             images = images.to(device)
             labels = labels.to(device)
-            embeddings = model(images)
+            embeddings = model.process(images)
             loss = loss_fn(embeddings, labels)
             total_loss += loss.item()
     return total_loss / len(dataloader)
@@ -67,16 +66,7 @@ val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=2
 
 # Model, Optimizer, Scheduler and Loss
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = NaViT(
-    image_size=32,
-    patch_size=4,
-    num_classes=10,
-    dim=512,
-    depth=6,
-    heads=8,
-    mlp_dim=2048,
-    channels=3,
-).to(device)
+model = VitModel(image_size=32, patch_size=4, dim=512, depth=6, heads=8).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
 loss_fn = SigLipLoss()

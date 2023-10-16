@@ -194,7 +194,6 @@ class Transformer(nn.Module):
 
 
 class NaViT(nn.Module):
-    
     def __init__(
         self,
         *,
