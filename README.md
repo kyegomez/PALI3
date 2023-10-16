@@ -9,6 +9,7 @@ are passed to an 3B encoder-decoder UL2 Transformer which produces the desired a
 
 
 Vit trained with siglip loss -> embeddings -> ul2 -> text tokens
+
 text -> tokenizer -> embeddings -> ul2 -> text tokens
 
 
