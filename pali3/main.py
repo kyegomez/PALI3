@@ -33,7 +33,7 @@ class VitModel:
         return self.vit(img, return_embeddings=True)
 
 
-class Pali:
+class Pali3:
     def __init__(
         self,
         model_name=None,
