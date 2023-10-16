@@ -72,6 +72,61 @@ The training procedure consists of multiple stages:
 
 Please note that this is a high-level representation and the actual implementation might involve more details and complexities.
 
+
+
+------
+
+Here are the ASCII diagrams for the ViT (Vision Transformer) and the Encoder-Decoder architecture:
+
+```
+ViT (Vision Transformer):
+
+Image Input
+    |
+    V
+Patch Extraction
+    |
+    V
+Linear Embedding
+    |
+    V
+Positional Encoding
+    |
+    V
+Transformer Encoder Blocks (Multiple Layers)
+    |
+    V
+Classification Head (Optional)
+    |
+    V
+Output (Image Embeddings)
+
+```
+
+The ViT starts with patch extraction from the input image. These patches are then linearly embedded and positional encodings are added. The resulting sequence of patch embeddings is passed through multiple layers of transformer encoders. Optionally, a classification head can be added at the end to get class probabilities for image classification tasks. The output of the ViT is the image embeddings.
+
+```
+Encoder-Decoder Architecture:
+
+Input (Image + Text Tokens)
+    |
+    V
+Transformer Encoder
+    |
+    V
+Encoder Output (Context for Decoder)
+    |
+    V
+Transformer Decoder
+    |
+    V
+Output (Generated Text)
+
+```
+
+The encoder-decoder architecture starts with the input, which is a combination of image and text tokens in this case. The input is passed through a transformer encoder, which generates a context for the decoder. The transformer decoder then uses this context to generate the output text.
+
+
 # License
 MIT
 
