@@ -19,4 +19,10 @@ are passed to an 3B encoder-decoder UL2 Transformer which produces the desired a
 MIT
 
 
+# Todo
 
+- [ ] Implement sig_lip vit model with training recipe
+- [ ] Implement the text tokenizer, maybe use token monster 
+- [ ] Implement the UL2 Transformer Encoder and Decoder
+- [ ] Implement training scripts
+- [ ]
