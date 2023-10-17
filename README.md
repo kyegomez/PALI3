@@ -12,6 +12,7 @@ Vit trained with siglip loss -> embeddings -> ul2 -> text tokens
 
 text -> tokenizer -> embeddings -> ul2 -> text tokens
 
+[ARXVIV PAPER LINK](https://arxiv.org/pdf/2310.09199v1.pdf)
 
 --------
 
@@ -152,6 +153,28 @@ Output (Generated Text)
 ```
 
 The encoder-decoder architecture starts with the input, which is a combination of image and text tokens in this case. The input is passed through a transformer encoder, which generates a context for the decoder. The transformer decoder then uses this context to generate the output text.
+
+
+# Dataset Strategy
+Here is a table summarizing the key datasets mentioned in the paper along with their metadata and source links:
+
+| Dataset | Type | Size | Tasks | Source |
+|-|-|-|-|-|
+| ImageNet-22k | Image Classification | 14M images, 21,841 classes | Pretraining | https://github.com/google-research-datasets/ImageNet-21k-P |
+| MS COCO | Image Captioning, VQA | 330K images, 80 object categories | Evaluation | https://cocodataset.org | 
+| Flickr30k | Image Captioning | 31K images | Evaluation | https://www.kaggle.com/dataset/flickr30k |
+| VQAv2 | Visual QA | 204K images, 1.1M questions | Evaluation | https://visualqa.org/download.html |  
+| GQA | Visual QA | 22M graph-based questions | Evaluation | https://cs.stanford.edu/people/dorarad/gqa/download.html |
+| RefCOCO/RefCOCO+ | Referring Expression | 19,994/19,992 images | Evaluation | https://github.com/lichengunc/refer |
+| TextCaps | Image Captioning | 31,014 images | Evaluation | https://textvqa.org/textcaps |
+| TextVQA | Visual QA | 28,408 images | Evaluation | https://textvqa.org/index.html |
+| STVQA | Visual QA | 249,991 QA pairs | Evaluation | https://tvqa.cs.unc.edu/ |
+| OCR-VQA | Visual QA | 45,336 images | Evaluation | https://ocrvqa.cloudcv.org/ |
+| DocVQA | Visual QA | 5,000 document images | Evaluation | https://github.com/doc-vqa/docvqa |
+| InfographiVQA | Visual QA | 10,047 infographic images | Evaluation | https://github.com/doc-vqa/InfoVQA |
+| WebLI | Image-Text Pairs | 72M image-text pairs in 100+ languages | Pretraining | https://laion.ai/blogs/webli/ |
+| JFT-300M | Image Classification | 303M images, 18,291 classes | Pretraining | https://github.com/google-research-datasets/jft300m |
+| CrossModal-3600 | Image-Text Retrieval | 31K images, 3600 lang-image pairs | Evaluation | https://laion.ai/crossmodal-3600/ |
 
 -----
 
