@@ -152,7 +152,9 @@ MIT
 
 # Todo
 
-- [ ] Implement sig_lip vit model with training recipe
-- [ ] Implement the text tokenizer, maybe use token monster 
-- [ ] Implement the UL2 Transformer Encoder and Decoder
+- [x] Implement sig_lip vit model with training recipe
+- [x] Implement the text tokenizer, maybe use token monster 
+- [x] Implement the UL2 Transformer Encoder and Decoder
+- [ ] Implement the pooling layer after vit then linear
+- [ ] Implement the prepending the visual token embeddings to the text embeddings
 - [ ] Implement training scripts for the full pali3 model

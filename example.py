@@ -1,5 +1,5 @@
 import torch
-from pali3.main import Pali3
+from pali3.ul2 import Pali3
 
 model = Pali3()
 

@@ -1,7 +1,43 @@
 import torch
-
+from torch import nn
 from pali3.ul2 import ViTransformerWrapper, Encoder, UL2
 from transformers import AutoTokenizer
+
+
+###########
+
+
+class PrependTokens(nn.Module):
+    """
+
+    # Initialize models
+    vit_model = ViTModel()
+    text_embedding = TextEmbedding("bert-base-uncased")
+
+    # Initialize PrependVisualTokens
+    prepend_visual_tokens = PrependVisualTokens(vit_model, text_embedding)
+
+    # Process image and text
+    img = torch.randn(1, 3, 256, 256)  # dummy image
+    text = "This is a sample text"
+    combined_tokens = prepend_visual_tokens.process(img, text)
+
+    """
+
+    def __init__(
+        self,
+        vit,
+        text_embedding,
+    ):
+        super().__init__()
+        self.vit = vit
+        self.text_embedding = text_embedding
+
+    def forward(self, x):
+        visual_tokens = self.vit.process(x)
+        text_tokens = self.text_embedding.process(x)
+        combined_tokens = torch.cat((visual_tokens, text_tokens), dim=1)
+        return combined_tokens
 
 
 class VitModel:
@@ -14,11 +50,15 @@ class VitModel:
 
         self.depth = depth
         self.heads = heads
+
         self.vit = ViTransformerWrapper(
             image_size=image_size,
             patch_size=patch_size,
             attn_layers=Encoder(dim=dim, depth=depth, heads=heads),
         )
+        # adaptive avg pool
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.linear_projection = nn.Linear(dim, dim)
 
     def process(self, img):
         if img is None:
@@ -29,8 +69,15 @@ class VitModel:
                     self.image_size, self.image_size
                 )
             )
+        vit_output = self.vit(img, return_embeddings=True)
+        pooled_output = self.pool(vit_output)
+        projected_output = self.linear_projection(pooled_output)
+        return projected_output
 
-        return self.vit(img, return_embeddings=True)
+
+x = torch.randn(1, 3, 256, 256)
+model = VitModel()
+model.process(x).shape
 
 
 class Pali3:
@@ -76,12 +123,6 @@ class Pali3:
 
     def process(self, img, prompt, output, mask):
         img_embeds = self.vit_model.process(img)
-
-        # logit_scale = 1.0
-        # logit_bias = None
-
-        # loss = SigLipLoss()
-        # loss = loss(img, prompt, logit_scale, logit_bias)
 
         result = self.pali_model(
             prompt, output, mask=mask, src_prepend_embeds=img_embeds
