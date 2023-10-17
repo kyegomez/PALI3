@@ -1,10 +1,7 @@
 import torch
 from torch import nn
-from pali3.ul2 import ViTransformerWrapper, Encoder, UL2
 from transformers import AutoTokenizer
-
-
-###########
+from pali3.ul2 import UL2, ViTransformerWrapper, Encoder
 
 
 class PrependTokens(nn.Module):
@@ -41,6 +38,31 @@ class PrependTokens(nn.Module):
 
 
 class VitModel:
+    """
+    VitModel is a wrapper around the ViT model from the PyTorch Image Models library.
+
+    Args:
+        image_size (int, optional): Size of the image. Defaults to 256.
+        patch_size (int, optional): Size of the patch. Defaults to 32.
+        dim (int, optional): Dimension of the model. Defaults to 512.
+        depth (int, optional): Depth of the model. Defaults to 6.
+        heads (int, optional): Number of heads in the model. Defaults to 8.
+
+    Raises:
+        ValueError: If the input image is None.
+        ValueError: If the input image shape is not [*, 3, image_size, image_size].
+
+    Examples:
+    x = torch.randn(1, 3, 256, 256)
+    model = VitModel()
+    out = model.process(x)
+    print(out)
+
+
+
+
+    """
+
     def __init__(
         self, image_size=256, patch_size=32, dim=512, depth=6, heads=8, *args, **kwargs
     ):
@@ -57,7 +79,7 @@ class VitModel:
             attn_layers=Encoder(dim=dim, depth=depth, heads=heads),
         )
         # adaptive avg pool
-        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        # self.pool = nn.MaxPool1d(kernel_size=2, stride=2)
         self.linear_projection = nn.Linear(dim, dim)
 
     def process(self, img):
@@ -70,17 +92,53 @@ class VitModel:
                 )
             )
         vit_output = self.vit(img, return_embeddings=True)
-        pooled_output = self.pool(vit_output)
-        projected_output = self.linear_projection(pooled_output)
+        # missing pool add later
+        # pooled_output = self.pool(vit_output)
+        projected_output = self.linear_projection(vit_output)
         return projected_output
 
 
-x = torch.randn(1, 3, 256, 256)
-model = VitModel()
-model.process(x).shape
-
-
 class Pali3:
+    """
+    Pali3 is a vit model with a transformer encoder and decoder.
+    It is a wrapper around the UL2 model from the PyTorch Image Models library.
+
+
+    Args:
+        model_name (str, optional): Name of the model. Defaults to None.
+        image_size (int, optional): Size of the image. Defaults to 256.
+        patch_size (int, optional): Size of the patch. Defaults to 32.
+        dim (int, optional): Dimension of the model. Defaults to 512.
+        depth (int, optional): Depth of the model. Defaults to 6.
+        heads (int, optional): Number of heads in the model. Defaults to 8.
+        enc_num_tokens (int, optional): Number of tokens in the encoder. Defaults to 256.
+        enc_max_seq_len (int, optional): Maximum sequence length in the encoder. Defaults to 1024.
+        dec_num_tokens (int, optional): Number of tokens in the decoder. Defaults to 256.
+        dec_max_seq_len (int, optional): Maximum sequence length in the decoder. Defaults to 1024.
+        enc_depth (int, optional): Depth of the encoder. Defaults to 6.
+        enc_heads (int, optional): Number of heads in the encoder. Defaults to 8.
+        dec_depth (int, optional): Depth of the decoder. Defaults to 6.
+        dec_heads (int, optional): Number of heads in the decoder. Defaults to 8.
+        seq_len (int, optional): Length of the sequence. Defaults to 1024.
+
+    Raises:
+        ValueError: If the model name is None.
+        ValueError: If the tokenizer is None.
+
+    Examples:
+
+    model = Pali3()
+    img = torch.randn(1, 3, 256, 256)  # dummy image
+    prompt = "This is a sample text"
+    output = "This is a sample text"
+    mask = None
+    result = model.process(img, prompt, output, mask)
+
+
+
+
+    """
+
     def __init__(
         self,
         model_name=None,
@@ -100,7 +158,6 @@ class Pali3:
         seq_len=1024,
     ):
         self.model_name = model_name
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.vit_model = VitModel(
             image_size=image_size,
             patch_size=patch_size,
@@ -138,13 +195,9 @@ class Pali3:
                 "model_name must be specidfied either in the class constructor or in the generate method"
             )
 
-        if not self.tokenizer:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-
-        inputs = self.tokenizer.encode(text, return_tensors="pt")
         seq_out_start = torch.zeros(1, 1).long()
         result = self.pali_model.generate(
-            inputs, seq_out_start, self.seq_len, mask, attn_mask
+            text, seq_out_start, self.seq_len, mask, attn_mask
         )
         result_text = self.tokenizer.decode(result[0], skip_special_tokens=True)
         return result_text

@@ -14,5 +14,5 @@ def detokenize(tokens):
     return text
 
 
-tokenize = tokenize("Hello my name is Kye what's your name")
-print(tokenize)
+# tokenize = tokenize("Hello my name is Kye what's your name")
+# print(tokenize)
