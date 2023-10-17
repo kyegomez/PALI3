@@ -149,6 +149,7 @@ Output (Generated Text)
 ```
 
 The encoder-decoder architecture starts with the input, which is a combination of image and text tokens in this case. The input is passed through a transformer encoder, which generates a context for the decoder. The transformer decoder then uses this context to generate the output text.
+
 -----
 
 # License
