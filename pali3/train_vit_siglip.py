@@ -1,9 +1,7 @@
 import torch
-import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
-import os
 from pali3.main import VitModel
 from zeta.nn.modules import SigLipLoss
 

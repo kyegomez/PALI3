@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from transformers import AutoTokenizer
 from pali3.ul2 import UL2, ViTransformerWrapper, Encoder
 
 
