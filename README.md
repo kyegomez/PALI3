@@ -191,3 +191,18 @@ MIT
 - [ ] Implement the pooling layer after vit then linear
 - [ ] Implement the prepending the visual token embeddings to the text embeddings
 - [ ] Implement training scripts for the full pali3 model
+
+
+# Citation
+
+```bibtex
+@misc{2310.09199,
+Author = {Xi Chen and Xiao Wang and Lucas Beyer and Alexander Kolesnikov and Jialin Wu and Paul Voigtlaender and Basil Mustafa and Sebastian Goodman and Ibrahim Alabdulmohsin and Piotr Padlewski and Daniel Salz and Xi Xiong and Daniel Vlasic and Filip Pavetic and Keran Rong and Tianli Yu and Daniel Keysers and Xiaohua Zhai and Radu Soricut},
+Title = {PaLI-3 Vision Language Models: Smaller, Faster, Stronger},
+Year = {2023},
+Eprint = {arXiv:2310.09199},
+}
+```
+
+
+
