@@ -23,7 +23,7 @@ text -> tokenizer -> embeddings -> ul2 -> text tokens
 
 ## Usage:
 
-```
+```python
 import torch
 from pali3.main import Pali3
 
@@ -96,7 +96,8 @@ Please note that this is a high-level representation and the actual implementati
 
 ------
 
-Here are the ASCII diagrams for the ViT (Vision Transformer) and the Encoder-Decoder architecture:
+# Vit
+Here are the ASCII diagrams for the ViT (Vision Transformer)
 
 ```
 ViT (Vision Transformer):
@@ -125,6 +126,9 @@ Output (Image Embeddings)
 
 The ViT starts with patch extraction from the input image. These patches are then linearly embedded and positional encodings are added. The resulting sequence of patch embeddings is passed through multiple layers of transformer encoders. Optionally, a classification head can be added at the end to get class probabilities for image classification tasks. The output of the ViT is the image embeddings.
 
+-------
+
+# UL2 Encoder/Decoder Transformer
 ```
 Encoder-Decoder Architecture:
 
@@ -145,7 +149,7 @@ Output (Generated Text)
 ```
 
 The encoder-decoder architecture starts with the input, which is a combination of image and text tokens in this case. The input is passed through a transformer encoder, which generates a context for the decoder. The transformer decoder then uses this context to generate the output text.
-
+-----
 
 # License
 MIT
