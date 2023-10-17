@@ -158,6 +158,8 @@ The encoder-decoder architecture starts with the input, which is a combination o
 # Dataset Strategy
 Here is a table summarizing the key datasets mentioned in the paper along with their metadata and source links:
 
+- Made with claude so links could be fake
+
 | Dataset | Type | Size | Tasks | Source |
 |-|-|-|-|-|
 | ImageNet-22k | Image Classification | 14M images, 21,841 classes | Pretraining | https://github.com/google-research-datasets/ImageNet-21k-P |
