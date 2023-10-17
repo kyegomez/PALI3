@@ -40,6 +40,7 @@ print(result)
 
 ```
 
+
 -------
 
 ## Architecture
@@ -78,6 +79,8 @@ Task specialization (transfer)
 
 ```
 
+
+# Model Training Phases
 The model architecture consists of a contrastive vision encoder (ViT-G/14) that encodes the image into tokens. These tokens are passed to a transformer encoder and then to a transformer decoder that generates a text output.
 
 The training procedure consists of multiple stages:
@@ -96,7 +99,7 @@ Please note that this is a high-level representation and the actual implementati
 
 ------
 
-# Vit
+# Vit Architecture
 Here are the ASCII diagrams for the ViT (Vision Transformer)
 
 ```
