@@ -133,9 +133,6 @@ class Pali3:
     mask = None
     result = model.process(img, prompt, output, mask)
 
-
-
-
     """
 
     def __init__(
