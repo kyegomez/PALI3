@@ -13,7 +13,7 @@ from typing import List, Callable, Optional
 from einops import rearrange, repeat, reduce, pack, unpack
 
 from zeta.nn.attention.attend import Attend, Intermediates
-from zeta.nn.architecture.auto_regressive_wrapper import AutoregressiveWrapper
+from zeta.structs.auto_regressive_wrapper import AutoregressiveWrapper
 
 
 # constants
@@ -648,6 +648,7 @@ class ShiftTokens(nn.Module):
         mask = kwargs.get("mask", None)
         shifts = self.shifts
         segments = len(shifts)
+        
         feats_per_shift = x.shape[-1] // segments
         splitted = x.split(feats_per_shift, dim=-1)
         segments_to_shift, rest = splitted[:segments], splitted[segments:]
